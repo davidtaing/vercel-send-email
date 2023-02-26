@@ -1,6 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import sgMail, { MailDataRequired } from "@sendgrid/mail";
 
+export function isMethodSupported(method?: string) {
+  return method === "POST";
+}
 
 type Body = {
   replyTo: string;
@@ -17,7 +20,7 @@ type Body = {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== "POST")
+  if (isMethodSupported(req.body))
     return res.status(405).json({ message: "Method Not Allowed" });
 
   const { replyTo, subject, text, html } = req.body as Body;
