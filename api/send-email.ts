@@ -20,7 +20,7 @@ type Body = {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (isMethodSupported(req.body))
+  if (isMethodSupported(req.method))
     return res.status(405).json({ message: "Method Not Allowed" });
 
   const { replyTo, subject, text, html } = req.body as Body;
