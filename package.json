@@ -1,0 +1,25 @@
+{
+  "name": "vercel-send-email",
+  "author": "David Taing <adavidtaing@gmail.com>",
+  "version": "0.0.1",
+  "description": "Programmatically send emails from Vercel using the SendGrid API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidtaing/vercel-send-email.git"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "tsc",
+    "release": "npm build && changeset publish"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@changesets/cli": "^2.26.0"
+  },
+  "dependencies": {
+    "@vercel/node": "^2.9.8"
+  }
+}
