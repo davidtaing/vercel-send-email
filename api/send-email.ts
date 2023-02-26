@@ -1,23 +1,31 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import sgMail, { MailDataRequired } from "@sendgrid/mail";
+import * as zod from "zod";
 
 export function isMethodSupported(method?: string) {
   return method === "POST";
 }
 
-type Body = {
-  replyTo: string;
-  subject: string;
-  /**
-   * Plain text content for the email body.
-   * Gets overridden by `html` if both are provided.
-   */
-  text?: string;
-  /**
-   * HTML content for the email body. Overrides `text` if both are provided.
-   */
-  html?: string;
-};
+export const bodySchema = zod
+  .object({
+    subject: zod.string(),
+    replyTo: zod.string().email(),
+    text: zod.string().optional(),
+    html: zod.string().optional(),
+  })
+  .refine(({ text, html }) => text || html, {
+    message: "No text or html provided.",
+    path: ["text", "html"],
+  });
+
+export type Body = zod.infer<typeof bodySchema>;
+
+/**
+ * Performs input validation using a zod schema
+ */
+export function validateInput(body: any) {
+  return bodySchema.safeParse(body);
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (isMethodSupported(req.method))
@@ -25,8 +33,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { replyTo, subject, text, html } = req.body as Body;
 
-  if (!text && !html) {
-    return res.status(400).json("No text or html provided.");
+  const inputValidation = validateInput(req.body);
+
+  if (!inputValidation.success) {
+    return res.status(400).json(inputValidation["error"]);
   }
 
   const msg: MailDataRequired = {
