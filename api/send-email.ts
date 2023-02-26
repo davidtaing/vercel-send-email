@@ -44,7 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { replyTo, subject, text, html } = req.body as Body;
 
-  if (!isSecretKeyValid(req.headers.SECRET_KEY as string))
+  if (!isSecretKeyValid(req.headers.secret_key as string))
     return res.status(401).json("Unauthorized");
 
   const inputValidation = validateInput(req.body);
