@@ -6,6 +6,17 @@ export function isMethodSupported(method?: string) {
   return method === "POST";
 }
 
+export function validateSecretKey(secretKey?: string) {
+  if (!process.env.SECRET_KEY)
+    throw new Error(
+      "SECRET_KEY is not set up. Please set up the environment variable via Vercel project dashboard."
+    );
+
+  if (!secretKey) return false;
+
+  return secretKey === process.env.SECRET_KEY;
+}
+
 export const bodySchema = zod
   .object({
     subject: zod.string(),
