@@ -1,4 +1,4 @@
-import { isMethodSupported } from "../api/send-email";
+import { isMethodSupported } from "../../api/send-email";
 
 test.each([
   { name: "POST method is supported", method: "POST", expected: true },
