@@ -20,6 +20,7 @@
     "@changesets/cli": "^2.26.0"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "@vercel/node": "^2.9.8"
   }
 }
