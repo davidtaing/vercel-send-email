@@ -114,7 +114,7 @@ Okay, nearly there! The environment variables haven't been loaded into our deplo
 
 `Select Project` -> `Deployments` -> `Deployment Dropdown Menu` -> `Redeploy`
 
-![image](https://user-images.githubusercontent.com/8443215/221406085-1f8e5641-4861-402d-9aec-6db10e66954e.png)
+[Redeploy Step](https://user-images.githubusercontent.com/8443215/221406085-1f8e5641-4861-402d-9aec-6db10e66954e.png)
 
 # 🎉🎉🎉 Now we're done! We can now use the Serverless function to send emails.
 
