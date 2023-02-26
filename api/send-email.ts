@@ -6,7 +6,7 @@ export function isMethodSupported(method?: string) {
   return method === "POST";
 }
 
-export function validateSecretKey(secretKey?: string) {
+export function isSecretKeyValid(secretKey?: string) {
   if (!process.env.SECRET_KEY)
     throw new Error(
       "SECRET_KEY is not set up. Please set up the environment variable via Vercel project dashboard."
@@ -43,6 +43,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ message: "Method Not Allowed" });
 
   const { replyTo, subject, text, html } = req.body as Body;
+
+  if (!isSecretKeyValid(req.headers.SECRET_KEY as string))
+    return res.status(401).json("Unauthorized");
 
   const inputValidation = validateInput(req.body);
 

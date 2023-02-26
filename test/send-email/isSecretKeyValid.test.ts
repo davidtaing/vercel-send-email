@@ -1,4 +1,4 @@
-import { validateSecretKey } from "../../api/send-email";
+import { isSecretKeyValid } from "../../api/send-email";
 
 const env = process.env;
 
@@ -14,7 +14,7 @@ function resetEnv() {
 test("returns false when the Vercel Function is missing SECRET_KEY env", () => {
   resetEnv();
 
-  const runFunction = () => validateSecretKey("key not set up");
+  const runFunction = () => isSecretKeyValid("key not set up");
 
   expect(runFunction).toThrow();
 });
@@ -22,7 +22,7 @@ test("returns false when the Vercel Function is missing SECRET_KEY env", () => {
 test("returns false when request SECRET_KEY is not provided", () => {
   setupEnvSecretKey();
 
-  const actual = validateSecretKey();
+  const actual = isSecretKeyValid();
 
   expect(actual).toEqual(false);
   resetEnv();
@@ -31,7 +31,7 @@ test("returns false when request SECRET_KEY is not provided", () => {
 test("returns true when request SECRET_KEY matches Vercel Function SECRET_KEY", () => {
   setupEnvSecretKey();
 
-  const actual = validateSecretKey("secret");
+  const actual = isSecretKeyValid("secret");
 
   expect(actual).toEqual(true);
   resetEnv();
