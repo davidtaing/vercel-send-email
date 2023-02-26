@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import sgMail, { MailDataRequired } from "@sendgrid/mail";
-sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+
 
 type Body = {
   replyTo: string;
@@ -36,6 +36,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   };
 
   try {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+
     const [response] = await sgMail.send(msg);
     return res.status(response.statusCode).json(response.body);
   } catch (err: unknown) {
